@@ -8,7 +8,7 @@
     az_environment: prod
 
   roles:
-    - role: nehrman.azure
+    - role: azure
       instance_name: db
       instance_role: "db"
       instance_ansible_port: "22"
@@ -19,7 +19,7 @@
       az_image_sku: "7.3"
       az_ssh_pwd_enabled: "true"
 
-    - role: nehrman.azure
+    - role: azure
       instance_name: web
       instance_role: "web"
       instance_ansible_port: "22"
@@ -30,7 +30,7 @@
       az_image_sku: "7.3"
       az_ssh_pwd_enabled: "true"
 
-    - role: nehrman.azure
+    - role: azure
       instance_name: client
       instance_role: "client"
       instance_ansible_port: "5986"
@@ -39,6 +39,6 @@
       os_type: "windows"
       az_image_offer: "WindowsServer"
       az_image_publisher: "MicrosoftWindowsServer"
-az_image_sku: "2012-R2-Datacenter"
+      az_image_sku: "2012-R2-Datacenter"
 
 
