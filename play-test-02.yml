@@ -6,10 +6,11 @@
 
   vars:
     az_environment: prod
+    form_instance_name: "dummy"
 
   roles:
     - role: azure
-      instance_name: db
+      instance_name: "{{ form_instance_name}}"
       instance_role: "db"
       instance_ansible_port: "22"
       instance_ansible_user: "centos"
@@ -18,5 +19,3 @@
       az_image_publisher: "OpenLogic"
       az_image_sku: "7.3"
       az_ssh_pwd_enabled: "true"
-
-    
