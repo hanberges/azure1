@@ -1,5 +1,5 @@
 ---
-- name:  SETUP: Create {{ az_resourcegroup_name }} Resource Group on {{ az_region }}
+- name:  SETUP Create {{ az_resourcegroup_name }} Resource Group on {{ az_region }}
   local_action:
     module: azure_rm_resourcegroup
     location: "{{ az_location }}"
@@ -10,7 +10,7 @@
 #      customer: "{{ az_customer }}"
 #   register: return_azrg
 
-- name:  SETUP: Create {{ az_virtualnet_name }} Virtual Network on {{ az_region }}
+- name:  SETUP Create {{ az_virtualnet_name }} Virtual Network on {{ az_region }}
   local_action:
     module: azure_rm_virtualnetwork
     location: "{{ az_location }}"
@@ -23,7 +23,7 @@
 #      customer: "{{ az_customer }}"
    #    register: return_azvirtnet
 
-- name:  SETUP: Create {{ az_subnet_name }} Subnet on {{ az_region }}
+- name:  SETUP Create {{ az_subnet_name }} Subnet on {{ az_region }}
   local_action:
     module: azure_rm_subnet
     name: "{{ az_subnet_name }}"
@@ -36,7 +36,7 @@
 #      customer: "{{ az_customer }}"
 #    register: return_azsubnet
 
-- name:  SETUP: Create {{ az_secgroup_name }} Security Group on {{ az_region }}
+- name:  SETUP Create {{ az_secgroup_name }} Security Group on {{ az_region }}
   local_action:
     module: azure_rm_securitygroup
     resource_group: "{{ az_resourcegroup_name }}"
