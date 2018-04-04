@@ -6,11 +6,13 @@
 
   vars:
     az_environment: prod
-    form_instance_name: "dummy"
+    instance_name: "dummy"
+    az_vm_name: "{{ az_environment }}-{{ instance_name }}"
+
 
   roles:
     - role: azure
-      instance_name: "{{ form_instance_name}}"
+      #instance_name: ""
       instance_role: "db"
       instance_ansible_port: "22"
       instance_ansible_user: "centos"
