@@ -1,0 +1,37 @@
+---
+- name: Deploy one VM on Azure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    az_environment: prod
+    instance_name: "dummy"
+    az_vm_name: "{{ az_environment }}-{{ instance_name }}"
+
+
+  roles:
+    - role: azure
+      #instance_name: ""
+      instance_role: "db"
+      instance_ansible_port: "22"
+      instance_ansible_user: "centos"
+      os_type: "linux"
+      az_image_offer: "CentOS"
+      az_image_publisher: "OpenLogic"
+      az_image_sku: "7.3"
+      az_ssh_pwd_enabled: "true"
+
+
+- name: Install httpd on vm
+  hosts: "{{ az_vm_name }}"
+  become: yes
+  become_method: sudo
+
+
+
+  tasks:
+    - name: Installer les packages web
+      yum:
+        name: httpd
+        state: present

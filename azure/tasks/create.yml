@@ -124,7 +124,7 @@
     ansible_user: "{{ instance_ansible_user }}"
     ansible_port: "{{ instance_ansible_port }}"
     groups:
-      - "az"
+      - "azure"
       - "{{ instance_role }}"
       - "{{ os_type }}"
 #         - "tag_Environment_{{ item.item.Environment }}"
