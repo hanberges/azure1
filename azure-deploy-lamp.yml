@@ -1,0 +1,14 @@
+---
+- name: Deploy Web server
+  hosts: "{{ instance_name }}"
+  become: yes
+  become_method: sudo
+
+  vars:
+    instance_name: "dummy"
+
+  tasks:
+    - name: Installer les packages
+      yum:
+        name: httpd
+        state: present
