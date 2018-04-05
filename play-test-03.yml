@@ -27,6 +27,10 @@
       set_fact:
         vm_name: "{{ az_vm_name }}"
 
+    - name: Refresh inventory
+      meta:
+        refresh_inventory
+
 
 - name: Install httpd on vm
   hosts: "{{ instance_name }}"
