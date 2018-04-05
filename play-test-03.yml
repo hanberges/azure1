@@ -22,9 +22,14 @@
       az_image_sku: "7.3"
       az_ssh_pwd_enabled: "true"
 
+  tasks:
+    - name: Create fact to pass vm az_vm_name
+      set_fact:
+        vm_name: "{{ az_vm_name }}"
+
 
 - name: Install httpd on vm
-  hosts: "{{ az_vm_name }}"
+  hosts: "{{ vm_name }}"
   become: yes
   become_method: sudo
 
