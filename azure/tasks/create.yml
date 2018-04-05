@@ -44,12 +44,11 @@
     location: "{{ az_location }}"
     type: "{{ az_storageaccount_type }}"
     kind: "{{ az_storageaccount_kind }}"
-#    access_tier: "{{ az_storageaccount_tier }}"
+
     state: present
     tags:
       purpose: "{{ az_environment }}"
-#      customer: "{{ az_customer }}"
-#    register: return_azstoaccnt
+
 
 - name: Create public ip
   local_action:
@@ -81,9 +80,6 @@
     admin_username: "{{ az_vm_admin_user }}"
     admin_password: "{{ az_vm_admin_pwd }}"
     ssh_password_enabled: "{{ az_ssh_pwd_enabled }}"
-#    ssh_public_keys:
-#        - path: "/home/{{ az_vm_admin_user }}/.ssh/authorized_key"
-#          key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrXhsaeKHmorJxS/7GJ9zUK4p3XOD5e5WBiMtXydftFpBbR6e0nB3NO9fS/qwimqTuTnBrQkz+WZJ3YOIdnp4/Nb2b43S1rg7toQByHDehCTE7BT59bL2zy0zSrT12wkfqNG71m50TXDaPDzvy1r600UmZCKrSOGOx7Adel8AiHIxYiU7TJBcKdqUVqULHohSBT5/jYxPGP0efg1KZfajnKRegTBelvCToaNAtKfwEcRhEfW2+05XEbRWF4gIhBatoVv42BnAhPNLNTUIjZIhTxbyVvkABIWNAoWWAccsFQG567DAI6ftTjwrK1Zyu3NIByPyqSmREUcjyGidkS7/1 ansible@ans01.testlab.local"
     image:
       offer: "{{ az_image_offer }}"
       publisher: "{{ az_image_publisher }}"
@@ -127,4 +123,3 @@
       - "azure"
       - "{{ instance_role }}"
       - "{{ os_type }}"
-#         - "tag_Environment_{{ item.item.Environment }}"

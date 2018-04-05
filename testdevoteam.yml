@@ -31,13 +31,13 @@
 
     - name: create virtual machine
       local_action:
-        azure_rm_virtualmachine:
-          subscription_id: "{{ subscription_id }}"
-          client_id: "{{ Client_id }}"
-          secret: "{{ Secret_key }}"
-          tenant: "{{ Tenant_id }}"
-          resource_group: "{{ RG }}"
-          name: "{{ VM_name }}"
+        module: azure_rm_virtualmachine
+        subscription_id: "{{ subscription_id }}"
+        client_id: "{{ Client_id }}"
+        secret: "{{ Secret_key }}"
+        tenant: "{{ Tenant_id }}"
+        resource_group: "{{ RG }}"
+        name: "{{ VM_name }}"
           vm_size: "{{ VM_size }}"
           admin_username: "{{ admin_uname }}"
           admin_password: "{{ admin_passwd }}"
@@ -46,7 +46,7 @@
             publisher: "{{ Image_publisher }}"
             sku: "{{ Image_sku }}"
             version: latest
-      register: output
+        register: output
     - debug:
        var: output
 
