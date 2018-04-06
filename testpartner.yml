@@ -1,0 +1,74 @@
+---
+- hosts: localhost
+  connection : local
+  gather_facts: false
+
+
+  tasks:
+    - name: Get playbook variables
+      include_vars:
+        file: vars.yml
+    - name: VM_name
+      debug:
+       msg: "{{ VM_name }}"
+    - name: VM_size
+      debug:
+       msg: "{{ VM_size }}"
+    - name: VM_Offer
+      debug:
+       msg: "{{ Image_offer }}"
+
+    - name: Create virtual network
+      local_action:
+        module: azure_rm_virtualnetwork
+        resource_group: "{{ RG }}"
+        name: snowvnet
+        address_prefixes: "10.10.0.0/16"
+        subscription_id: "{{ subscription_id }}"
+        client_id: "{{ Client_id }}"
+        secret: "{{ Secret_key }}"
+        tenant: "{{ Tenant_id }}"
+
+    - name: create virtual machine
+      local_action:
+        module: azure_rm_virtualmachine
+        subscription_id: "{{ subscription_id }}"
+        client_id: "{{ Client_id }}"
+        secret: "{{ Secret_key }}"
+        tenant: "{{ Tenant_id }}"
+        resource_group: "{{ RG }}"
+        name: "{{ VM_name }}"
+          vm_size: "{{ VM_size }}"
+          admin_username: "{{ admin_uname }}"
+          admin_password: "{{ admin_passwd }}"
+          image:
+            offer: "{{ Image_offer }}"
+            publisher: "{{ Image_publisher }}"
+            sku: "{{ Image_sku }}"
+            version: latest
+        register: output
+    - debug:
+       var: output
+
+    - name: Posting to SNOW API
+      local_action:
+        uri:
+          url: "{{ url_snow }}"
+          user: "{{ user_snow }}"
+          password: "{{user_snow }}"
+          method: POST
+          return_content: yes
+          headers:
+            Content-Type: application/json
+          body_format: json
+          body:
+            {"Manufacturer":"{{ Image_publisher }}",
+             "Name":"{{ VM_name }}",
+             "Operating System":"{{ Image_offer }}"
+            }
+        #status_code: 201
+        validate_certs: no
+      register: snow_response
+    - debug:
+        var: snow_response
+      when: output|success
