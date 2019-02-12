@@ -1,4 +1,54 @@
 ---
+- name:  Create {{ az_secgroup_name }} Security Group on {{ az_region }}
+  local_action:
+    module: azure_rm_securitygroup
+    resource_group: "{{ az_resourcegroup_name }}"
+    name: "{{ az_secgroup_name }}"
+    rules:
+      - name: SSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 101
+        direction: Inbound
+      - name: RDP
+        protocol: Tcp
+        destination_port_range: 389
+        access: Allow
+        priority: 102
+        direction: Inbound
+      - name: WINRM
+        protocol: Tcp
+        destination_port_range: 5986
+        access: Allow
+        priority: 103
+        direction: Inbound
+      - name: HTTP
+        protocol: Tcp
+        destination_port_range: 80
+        access: Allow
+        priority: 104
+        direction: Inbound
+      - name: HTTPS
+        protocol: Tcp
+        destination_port_range: 443
+        access: Allow
+        priority: 105
+        direction: Inbound
+
+- name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
+  local_action:
+    module: azure_rm_storageaccount
+    name: "{{ az_storageaccount_name }}"
+    resource_group: "{{ az_resourcegroup_name }}"
+    location: "{{ az_location }}"
+    type: "{{ az_storageaccount_type }}"
+    kind: "{{ az_storageaccount_kind }}"
+
+    state: present
+    tags:
+      purpose: "{{ az_environment }}"
+
 
 - name: Create public ip
   local_action:
@@ -61,3 +111,15 @@
       purpose: "{{ az_environment }}"
       application: "{{ az_application }}"
   when: os_type == "windows"
+
+- name: Add instances to inventory
+  local_action:
+    module: add_host
+    name: "{{ azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+    ansible_host: "{{ azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+    ansible_user: "{{ instance_ansible_user }}"
+    ansible_port: "{{ instance_ansible_port }}"
+    groups:
+      - "azure"
+      - "{{ instance_role }}"
+      - "{{ os_type }}"
