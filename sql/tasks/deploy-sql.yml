@@ -1,7 +1,7 @@
 ---
 
 - name: Print Red Hat release
-  command: cat /etc/redhat-release
+  command: "cat /etc/redhat-release"
   register: rhrelease
 
 - debug: msg="{{ rhrelease.stdout }}"
@@ -12,8 +12,41 @@
     url: "{{ src_sqlsrv_repo }}"
     dest: "{{ tgt_sqlsrv_repo }}"
 
+- name: Download the Microsoft SQL Prod Red Hat repository configuration file
+  get_url:
+    url: "{{ src_prod_repo }}"
+    dest: "{{ tgt_prod_repo }}"
+
 - name: Install SQL server package
   yum:
     name: "{{ item }}"
     state: present
   with_items: "{{ sql_package }}"
+
+- name: Stop SQL server service
+  service:
+    name: "{{ sql_service }}"
+    state: stopped
+
+- name: Set environment variables
+  command: "MSSQL_SA_PASSWORD={{ mssql_sa_password }}; MSSQL_PID={{ mssql_pid }}; SQL_INSTALL_AGENT={{ sql_install_agent }} "
+  register: envvar
+
+- debug: msg="{{ envvar.stdout }}"
+- debug: msg="{{ envvar.stderr }}"
+
+- name: Install SQL Server
+  command: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
+  register: installsql
+
+- debug: msg="{{ installsql.stdout }}"
+- debug: msg="{{ installsql.stderr }}"
+
+ - name: Configure Firewall connections to allow remote access
+      firewalld:
+        state: enabled
+        zone: public
+        immediate: true
+        port: "{{ item }}"
+        permanent: true
+      with_items: "{{ sql_ports }}"

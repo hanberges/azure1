@@ -1,4 +1,11 @@
 ---
 src_sqlsrv_repo: "https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo"
 tgt_sqlsrv_repo: "/etc/yum.repos.d/mssql-server.repo"
+src_prod_repo: "https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo"
+tgt_prod_repo: "/etc/yum.repos.d/mssql-server.repo"
 sql_package: "mssql-server"
+sql_service: "mssql-server"
+mssql_sa_password: '!Passw0rd'
+mssql_pid: 'evaluation'
+sql_install_agent: 'y'
+sql_ports: "1443/tcp"
