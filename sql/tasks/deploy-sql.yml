@@ -29,28 +29,28 @@
     state: stopped
 
 - name: Set MSSQL_SA_PASSWORD
-  command: "MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
+  shell: "MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
   register: var1
 
 - debug: msg="{{ var1.stdout }}"
 - debug: msg="{{ var1.stderr }}"
 
 - name: Set MSSQL_PID
-  command: "MSSQL_PID={{ mssql_pid }}"
+  shell: "MSSQL_PID={{ mssql_pid }}"
   register: var2
 
 - debug: msg="{{ var2.stdout }}"
 - debug: msg="{{ var2.stderr }}"
 
 - name: Set SQL_INSTALL_AGENT
-  command: "SQL_INSTALL_AGENT={{ sql_install_agent }} "
+  shell: "SQL_INSTALL_AGENT={{ sql_install_agent }} "
   register: var3
 
 - debug: msg="{{ var3.stdout }}"
 - debug: msg="{{ var3.stderr }}"
 
 - name: Install SQL Server
-  command: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
+  shell: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
   register: installsql
 
 - debug: msg="{{ installsql.stdout }}"
