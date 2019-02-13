@@ -28,30 +28,56 @@
     name: "{{ sql_service }}"
     state: stopped
 
-- name: Set MSSQL_SA_PASSWORD
+- name: Set MSSQL_SA_PASSWORD step 1
   lineinfile:
-    path: /opt/mssql/bin/mssql-conf
-    insertafter: 'export PYTHONDONTWRITEBYTECODE=1'
+    path: /root/.bashrc
+    insertafter: EOF
     state: present
     line: "export MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
 
-
-
-- name: Set MSSQL_PID
+- name: Set MSSQL_SA_PASSWORD step 2
   lineinfile:
-    path: /opt/mssql/bin/mssql-conf
-    insertafter: 'export PYTHONDONTWRITEBYTECODE=1'
+    path: /root/.bash_profile
+    insertafter: EOF
+    state: present
+    line: "export MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
+
+- name: Set MSSQL_PID step 1
+  lineinfile:
+    path: /root/.bashrc
+    insertafter: EOF
     state: present
     line: "export MSSQL_PID={{ mssql_pid }}"
 
-
-- name: Set SQL_INSTALL_AGENT
+- name: Set MSSQL_PID step 2
   lineinfile:
-    path: /opt/mssql/bin/mssql-conf
-    insertafter: 'export PYTHONDONTWRITEBYTECODE=1'
+    path: /root/.bash_profile
+    insertafter: EOF
+    state: present
+    line: "export MSSQL_PID={{ mssql_pid }}"
+
+- name: Set SQL_INSTALL_AGENT step 1
+  lineinfile:
+    path: /root/.bashrc
+    insertafter: EOF
     state: present
     line: "export SQL_INSTALL_AGENT={{ sql_install_agent }}"
 
+- name: Set SQL_INSTALL_AGENT step 2
+  lineinfile:
+    path: /root/.bash_profile
+    insertafter: EOF
+    state: present
+    line: "export SQL_INSTALL_AGENT={{ sql_install_agent }}"
+
+- name: Set MSSQL_SA_PASSWORD step 3
+  shell: 'MSSQL_SA_PASSWORD=$MSSQL_SA_PASSWORD'
+
+- name: Set MSSQL_PID step 3
+  shell: 'MSSQL_PID=$MSSQL_PID'
+
+- name: Set SQL_INSTALL_AGENT step 3
+  shell: 'SQL_INSTALL_AGENT=$SQL_INSTALL_AGENT'
 
 - name: Install SQL Server
   shell: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
