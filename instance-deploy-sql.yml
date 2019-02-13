@@ -1,7 +1,6 @@
 ---
 - name: Deploy SQL server on target VM
-  hosts: localhost
-  connection: local
+  hosts: all
   gather_facts: false
 
   vars:
@@ -12,4 +11,3 @@
 
   roles:
     - role: sql
-      
