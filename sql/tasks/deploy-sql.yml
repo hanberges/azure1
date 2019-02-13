@@ -3,6 +3,17 @@
 - name: Print Red Hat release
   command: cat /etc/redhat-release
   register: rhrelease
-  
+
 - debug: msg="{{ rhrelease.stdout }}"
 - debug: msg="{{ rhrelease.stderr }}"
+
+- name: Download the Microsoft SQL Server Red Hat repository configuration file
+  get_url:
+    url: "{{ src_sqlsrv_repo }}"
+    dest: "{{ tgt_sqlsrv_repo }}"
+
+- name: Install SQL server package
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ sql_package }}"

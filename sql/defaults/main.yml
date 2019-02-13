@@ -1,2 +1,4 @@
 ---
-customer: "dsz"
+src_sqlsrv_repo: "https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo"
+tgt_sqlsrv_repo: "/etc/yum.repos.d/mssql-server.repo"
+sql_package: "mssql-server"
