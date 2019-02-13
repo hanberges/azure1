@@ -28,23 +28,26 @@
     name: "{{ sql_service }}"
     state: stopped
 
-- name: Set MSSQL_SA_PASSWORD step 1
-  lineinfile:
-    path: /home/cloud-user/.bashrc
-    insertafter: EOF
-    line: "export MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
+- name: Set MSSQL_SA_PASSWORD
+  shell: "export MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
+  register: var1
 
-- name: Set MSSQL_PID step 1
-  lineinfile:
-    path: /home/cloud-user/.bashrc
-    insertafter: EOF
-    line: "export MSSQL_PID={{ mssql_pid }}"
+- debug: msg="{{ var1.stdout }}"
+- debug: msg="{{ var1.stderr }}"
 
-- name: Set SQL_INSTALL_AGENT step 1
-  lineinfile:
-    path: /home/cloud-user/.bashrc
-    insertafter: EOF
-    line: "export SQL_INSTALL_AGENT={{ sql_install_agent }}"
+- name: Set MSSQL_PID
+  shell: "export MSSQL_PID={{ mssql_pid }}"
+  register: var2
+
+- debug: msg="{{ var2.stdout }}"
+- debug: msg="{{ var2.stderr }}"
+
+- name: Set SQL_INSTALL_AGENT
+  shell: "export SQL_INSTALL_AGENT={{ sql_install_agent }} "
+  register: var3
+
+- debug: msg="{{ var3.stdout }}"
+- debug: msg="{{ var3.stderr }}"
 
 - name: Install SQL Server
   shell: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
