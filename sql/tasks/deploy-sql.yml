@@ -42,11 +42,11 @@
 - debug: msg="{{ installsql.stdout }}"
 - debug: msg="{{ installsql.stderr }}"
 
- - name: Configure Firewall connections to allow remote access
-      firewalld:
-        state: enabled
-        zone: public
-        immediate: true
-        port: "{{ item }}"
-        permanent: true
-      with_items: "{{ sql_ports }}"
+- name: Configure Firewall connections to allow remote access
+  firewalld:
+    state: enabled
+    zone: public
+    immediate: true
+    port: "{{ item }}"
+    permanent: true
+  with_items: "{{ sql_ports }}"
