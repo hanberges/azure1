@@ -1,0 +1,15 @@
+---
+- name: Deploy SQL server on target VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    #az_environment: prod
+    #instance_name: "dummy"
+    #az_vm_name: "{{ instance_name }}"
+
+
+  roles:
+    - role: sql
+      

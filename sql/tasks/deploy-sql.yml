@@ -1,0 +1,8 @@
+---
+
+- name: Print Red Hat release
+  command: cat /etc/redhat-release
+  register: rhrelease
+  
+- debug: msg="{{ rhrelease.stdout }}"
+- debug: msg="{{ rhrelease.stderr }}"
