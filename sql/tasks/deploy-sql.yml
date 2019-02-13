@@ -28,12 +28,26 @@
     name: "{{ sql_service }}"
     state: stopped
 
-- name: Set environment variables
-  command: "MSSQL_SA_PASSWORD={{ mssql_sa_password }}; MSSQL_PID={{ mssql_pid }}; SQL_INSTALL_AGENT={{ sql_install_agent }} "
-  register: envvar
+- name: Set MSSQL_SA_PASSWORD
+  command: "MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
+  register: var1
 
-- debug: msg="{{ envvar.stdout }}"
-- debug: msg="{{ envvar.stderr }}"
+- debug: msg="{{ var1.stdout }}"
+- debug: msg="{{ var1.stderr }}"
+
+- name: Set MSSQL_PID
+  command: "MSSQL_PID={{ mssql_pid }}"
+  register: var2
+
+- debug: msg="{{ var2.stdout }}"
+- debug: msg="{{ var2.stderr }}"
+
+- name: Set SQL_INSTALL_AGENT
+  command: "SQL_INSTALL_AGENT={{ sql_install_agent }} "
+  register: var3
+
+- debug: msg="{{ var3.stdout }}"
+- debug: msg="{{ var3.stderr }}"
 
 - name: Install SQL Server
   command: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
