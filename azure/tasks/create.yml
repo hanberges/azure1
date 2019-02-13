@@ -17,7 +17,7 @@
     public_ip_name: "{{ az_public_ip_name }}"
     security_group: "{{ az_secgroup_name }}"
 
-- name: "Create Virtual Machine {{ az_vm_name }}"
+- name: "Create Virtual Machine {{ az_vm_name }} with ssh keypath {{ az_vm_ssh_keypath }}"
   local_action:
     module: azure_rm_virtualmachine
     resource_group: "{{ az_resourcegroup_name }}"
