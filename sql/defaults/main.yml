@@ -1,8 +1,8 @@
 ---
 
-mssql_repo_src: "https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo"
+mssql_repo_src: "https://packages.microsoft.com/rhel/7/mssql-server-2017/"
 mssql_repo: "mssql-server-2017"
-mssql_tool_repo_src: "https://packages.microsoft.com/config/rhel/7/prod.repo"
+mssql_tool_repo_src: "https://packages.microsoft.com/rhel/7/prod/"
 mssql_tool_repo: "prod"
 gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
 mssql_package: "mssql-server"
