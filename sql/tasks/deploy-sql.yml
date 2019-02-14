@@ -22,7 +22,7 @@
     name: "{{ mssql_tool_repo }}"
     description: "{{ mssql_tool_repo }}"
     file: external_repos
-    baseurl: "{{ mssql_repo_tool_src }}"
+    baseurl: "{{ mssql_tool_repo_src }}"
     gpgcheck: yes
     gpgkey: "{{ gpgkey }}"
     enabled: yes
