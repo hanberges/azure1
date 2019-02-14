@@ -7,6 +7,9 @@ mssql_tool_repo: "prod"
 gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
 mssql_package: "mssql-server"
 mssql_service: "mssql-server"
+mssql_tool_packages:
+  - mssql-tools
+  - unixODBC-devel
 mssql_sa_password: '!Passw0rd'
 mssql_pid: 'evaluation'
 mssql_install_agent: 'y'
