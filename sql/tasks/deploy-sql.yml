@@ -7,54 +7,45 @@
 - debug: msg="{{ rhrelease.stdout }}"
 - debug: msg="{{ rhrelease.stderr }}"
 
-- name: Download the Microsoft SQL Server Red Hat repository configuration file
-  get_url:
-    url: "{{ src_sqlsrv_repo }}"
-    dest: "{{ tgt_sqlsrv_repo }}"
+- name: Configure Microsoft SQL Server Red Hat repository
+  yum_repository:
+    name: "{{ mssql_repo }}"
+    description: "{{ mssql_repo }}"
+    file: external_repos
+    baseurl: "{{ mssql_repo_src }}"
+    gpgcheck: yes
+    gpgkey: "{{ gpgkey }}"
+    enabled: yes
 
-- name: Download the Microsoft SQL Prod Red Hat repository configuration file
-  get_url:
-    url: "{{ src_prod_repo }}"
-    dest: "{{ tgt_prod_repo }}"
+- name: Configure Microsoft SQL Tool Red Hat repository
+  yum_repository:
+    name: "{{ mssql_tool_repo }}"
+    description: "{{ mssql_tool_repo }}"
+    file: external_repos
+    baseurl: "{{ mssql_repo_tool_src }}"
+    gpgcheck: yes
+    gpgkey: "{{ gpgkey }}"
+    enabled: yes
 
 - name: Install SQL server package
   yum:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
-  with_items: "{{ sql_package }}"
+  vars:
+    packages: "{{ sql_package }}"
 
 - name: Stop SQL server service
   service:
     name: "{{ sql_service }}"
     state: stopped
 
-- name: Set MSSQL_SA_PASSWORD
-  lineinfile:
-    path: /opt/mssql/bin/mssql-conf
-    insertafter: 'export PYTHONDONTWRITEBYTECODE=1'
-    state: present
-    line: "export MSSQL_SA_PASSWORD={{ mssql_sa_password }}"
-
-
-
-- name: Set MSSQL_PID
-  lineinfile:
-    path: /opt/mssql/bin/mssql-conf
-    insertafter: 'export PYTHONDONTWRITEBYTECODE=1'
-    state: present
-    line: "export MSSQL_PID={{ mssql_pid }}"
-
-
-- name: Set SQL_INSTALL_AGENT
-  lineinfile:
-    path: /opt/mssql/bin/mssql-conf
-    insertafter: 'export PYTHONDONTWRITEBYTECODE=1'
-    state: present
-    line: "export SQL_INSTALL_AGENT={{ sql_install_agent }}"
-
 
 - name: Install SQL Server
   shell: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
+  environment:
+    MSSQL_SA_PASSWORD: "{{ mssql_sa_password }}"
+    MSSQL_PID: "{{ mssql_pid }}"
+    SQL_INSTALL_AGENT: "{{ sql_install_agent }}"
   register: installsql
 
 - debug: msg="{{ installsql.stdout }}"
