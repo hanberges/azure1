@@ -32,11 +32,11 @@
     name: "{{ packages }}"
     state: present
   vars:
-    packages: "{{ sql_package }}"
+    packages: "{{ mssql_package }}"
 
 - name: Stop SQL server service
   service:
-    name: "{{ sql_service }}"
+    name: "{{ mssql_service }}"
     state: stopped
 
 
@@ -45,7 +45,7 @@
   environment:
     MSSQL_SA_PASSWORD: "{{ mssql_sa_password }}"
     MSSQL_PID: "{{ mssql_pid }}"
-    SQL_INSTALL_AGENT: "{{ sql_install_agent }}"
+    SQL_INSTALL_AGENT: "{{ mssql_install_agent }}"
   register: installsql
 
 - debug: msg="{{ installsql.stdout }}"
@@ -58,4 +58,4 @@
     immediate: true
     port: "{{ item }}"
     permanent: true
-  with_items: "{{ sql_ports }}"
+  with_items: "{{ mssql_ports }}"
