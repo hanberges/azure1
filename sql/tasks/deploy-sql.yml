@@ -74,3 +74,18 @@
     packages: "{{ mssql_tool_packages}}"
   environment:
     ACCEPT_EULA: 'y'
+
+- name: Copy Load_DB.sql
+  get_url:
+    url: "{{ src_loadb_sql }}"
+    dest: "{{ tgt_loadb_sql }}"
+
+- name: Copy Query_DB.sql
+  get_url:
+    url: "{{ src_querydb_sql }}"
+    dest: "{{ tgt_querydb_sql }}"
+
+- name: Copy Load_DB.sql
+  get_url:
+    url: "{{ src_dropdb_sql }}"
+    dest: "{{ tgt_dropdb_sql }}"
