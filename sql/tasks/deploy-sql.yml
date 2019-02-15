@@ -41,7 +41,7 @@
 
 
 #- name: Install SQL Server
-#  shell: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
+#  command: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
 #  environment:
 #    MSSQL_SA_PASSWORD: "{{ mssql_sa_password }}"
 #    MSSQL_PID: "{{ mssql_pid }}"
@@ -77,8 +77,8 @@
 
 - name: Copy Load_DB.sql
   get_url:
-    url: "{{ src_loadb_sql }}"
-    dest: "{{ tgt_loadb_sql }}"
+    url: "{{ src_loaddb_sql }}"
+    dest: "{{ tgt_loaddb_sql }}"
 
 - name: Copy Query_DB.sql
   get_url:
@@ -89,3 +89,18 @@
   get_url:
     url: "{{ src_dropdb_sql }}"
     dest: "{{ tgt_dropdb_sql }}"
+
+- name: Load DataBase
+  command: "/opt/mssql-tools/bin/sqlcmd -U SA -P {{ mssql_sa_password }} -i {{ tgt_loaddb_sql }}"
+  register: loaddb
+
+- debug: msg="{{ loaddb.stdout }}"
+- debug: msg="{{ loaddb.stderr }}"
+
+
+- name: Query DataBase
+  command: "/opt/mssql-tools/bin/sqlcmd -U SA -P {{ mssql_sa_password }} -i {{ tgt_querydb_sql }}"
+  register: querydb
+
+- debug: msg="{{ querydb.stdout }}"
+- debug: msg="{{ querydb.stderr }}"
