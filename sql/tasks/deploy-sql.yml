@@ -51,6 +51,11 @@
 #- debug: msg="{{ installsql.stdout }}"
 #- debug: msg="{{ installsql.stderr }}"
 
+- name: Ensure SQL server service is started
+  service:
+    name: "{{ mssql_service }}"
+    state: started
+
 - name: Configure Firewall connections to allow remote access
   firewalld:
     state: enabled
