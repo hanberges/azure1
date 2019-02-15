@@ -109,3 +109,6 @@
 
 - debug: msg="{{ querydb.stdout }}"
 - debug: msg="{{ querydb.stderr }}"
+
+- name: Dump query command
+  command: echo "/opt/mssql-tools/bin/sqlcmd -U SA -P {{ mssql_sa_password }} -i {{ tgt_querydb_sql }}" >> querycommand.txt
