@@ -72,7 +72,7 @@
     enabled: yes
     state: restarted
 
-- name: Install Install mssql-tools and the unixODBC developer package
+- name: Install mssql-tools and the unixODBC developer package
   yum:
     name: "{{ packages }}"
   vars:
