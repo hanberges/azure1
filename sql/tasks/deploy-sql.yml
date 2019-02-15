@@ -40,16 +40,16 @@
     state: stopped
 
 
-#- name: Install SQL Server
-#  command: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
-#  environment:
-#    MSSQL_SA_PASSWORD: "{{ mssql_sa_password }}"
-#    MSSQL_PID: "{{ mssql_pid }}"
-#    SQL_INSTALL_AGENT: "{{ mssql_install_agent }}"
-#  register: installsql
+- name: Install SQL Server
+  command: "/opt/mssql/bin/mssql-conf -n setup accept-eula "
+  environment:
+    MSSQL_SA_PASSWORD: "{{ mssql_sa_password }}"
+    MSSQL_PID: "{{ mssql_pid }}"
+    SQL_INSTALL_AGENT: "{{ mssql_install_agent }}"
+  register: installsql
 
-#- debug: msg="{{ installsql.stdout }}"
-#- debug: msg="{{ installsql.stderr }}"
+- debug: msg="{{ installsql.stdout }}"
+- debug: msg="{{ installsql.stderr }}"
 
 - name: Ensure SQL server service is started
   service:
@@ -90,7 +90,7 @@
     url: "{{ src_querydb_sql }}"
     dest: "{{ tgt_querydb_sql }}"
 
-- name: Copy Load_DB.sql
+- name: Copy Drop_DB.sql
   get_url:
     url: "{{ src_dropdb_sql }}"
     dest: "{{ tgt_dropdb_sql }}"
