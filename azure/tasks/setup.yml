@@ -10,6 +10,19 @@
 #      customer: "{{ az_customer }}"
 #   register: return_azrg
 
+- name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
+  local_action:
+    module: azure_rm_storageaccount
+    name: "{{ az_storageaccount_name }}"
+    resource_group: "{{ az_resourcegroup_name }}"
+    location: "{{ az_location }}"
+    type: "{{ az_storageaccount_type }}"
+    kind: "{{ az_storageaccount_kind }}"
+
+    state: present
+    tags:
+      purpose: "{{ az_environment }}"
+
 - name:  SETUP Create {{ az_virtualnet_name }} Virtual Network on {{ az_region }}
   local_action:
     module: azure_rm_virtualnetwork
